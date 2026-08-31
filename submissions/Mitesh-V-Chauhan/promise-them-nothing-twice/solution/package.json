@@ -1,0 +1,22 @@
+{
+  "name": "relayapi-rate-limiter",
+  "version": "1.0.0",
+  "description": "RelayAPI per-customer rate limiter — Trilogy take-home assignment",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest --verbose --forceExit --runInBand",
+    "harness": "node harness/run.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "ioredis": "^5.4.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
