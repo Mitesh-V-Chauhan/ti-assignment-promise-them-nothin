@@ -1,13 +1,14 @@
 'use strict';
 
+// nosemgrep: problem-based-packs.insecure-transport.js-node.using-http-server.using-http-server - Localhost-only test traffic
 const http = require('http');
 const { execSync } = require('child_process');
 
-// nosemgrep: javascript.node.security.audit.insecure-request.insecure-request - Intentional HTTP for localhost-only test traffic to the local Nginx container.
 const ENDPOINT = 'http://localhost:8080/api/v1/resource';
 
 function makeRequest(customerId) {
   return new Promise((resolve, reject) => {
+    // nosemgrep: problem-based-packs.insecure-transport.js-node.http-request.http-request - Localhost-only test traffic
     const req = http.get(ENDPOINT, { headers: { 'X-Customer-Id': customerId } }, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
