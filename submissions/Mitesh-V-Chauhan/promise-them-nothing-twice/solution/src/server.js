@@ -21,17 +21,17 @@ const PORT = parseInt(process.env.PORT, 10) || 3000;
 const NODE_ID = process.env.NODE_ID || `node-${PORT}`;
 
 async function main() {
-  console.log(`[${NODE_ID}] Starting RelayAPI rate-limiter service...`);
+  console.log('[%s] Starting RelayAPI rate-limiter service...', NODE_ID);
 
   // Connect to Redis
   const redisClient = createRedisClient();
 
   redisClient.on('connect', () => {
-    console.log(`[${NODE_ID}] Connected to Redis at ${redisClient.options.host}:${redisClient.options.port}`);
+    console.log('[%s] Connected to Redis at %s:%s', NODE_ID, redisClient.options.host, redisClient.options.port);
   });
 
   redisClient.on('error', (err) => {
-    console.error(`[${NODE_ID}] Redis error:`, err.message);
+    console.error('[%s] Redis error:', NODE_ID, err.message);
   });
 
   // Create rate limiter (Phase 3 will implement the real logic)
@@ -41,17 +41,17 @@ async function main() {
   const app = createApp({ rateLimiter, nodeId: NODE_ID });
 
   const server = app.listen(PORT, () => {
-    console.log(`[${NODE_ID}] Listening on port ${PORT}`);
-    console.log(`[${NODE_ID}] Health: http://localhost:${PORT}/health`);
-    console.log(`[${NODE_ID}] API:    http://localhost:${PORT}/api/v1/resource`);
+    console.log('[%s] Listening on port %s', NODE_ID, PORT);
+    console.log('[%s] Health: http://localhost:%s/health', NODE_ID, PORT);
+    console.log('[%s] API:    http://localhost:%s/api/v1/resource', NODE_ID, PORT);
   });
 
   // Graceful shutdown
   function shutdown(signal) {
-    console.log(`[${NODE_ID}] Received ${signal}, shutting down...`);
+    console.log('[%s] Received %s, shutting down...', NODE_ID, signal);
     server.close(() => {
       redisClient.disconnect();
-      console.log(`[${NODE_ID}] Shut down cleanly.`);
+      console.log('[%s] Shut down cleanly.', NODE_ID);
       process.exit(0);
     });
   }

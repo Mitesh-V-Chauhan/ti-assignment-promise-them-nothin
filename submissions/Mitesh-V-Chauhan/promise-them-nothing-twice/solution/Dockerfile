@@ -7,6 +7,8 @@ RUN npm ci --production 2>/dev/null || npm install --production
 
 COPY src/ ./src/
 
+USER node
+
 EXPOSE 3000
 
 CMD ["node", "src/server.js"]

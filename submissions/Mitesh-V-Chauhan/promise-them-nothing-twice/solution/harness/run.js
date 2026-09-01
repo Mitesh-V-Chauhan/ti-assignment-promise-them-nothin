@@ -3,6 +3,7 @@
 const http = require('http');
 const { execSync } = require('child_process');
 
+// nosemgrep: javascript.node.security.audit.insecure-request.insecure-request - Intentional HTTP for localhost-only test traffic to the local Nginx container.
 const ENDPOINT = 'http://localhost:8080/api/v1/resource';
 
 function makeRequest(customerId) {

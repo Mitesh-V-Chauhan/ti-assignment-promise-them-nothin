@@ -20,6 +20,7 @@ const { resolveQuota } = require('./config');
  * @returns {express.Application}
  */
 function createApp({ rateLimiter, nodeId = 'unknown' } = {}) {
+  // nosemgrep: javascript.express.security.audit.express-check-csurf-middleware-usage.express-check-csurf-middleware-usage - Stateless API authenticated via X-Customer-Id header; no browser cookies/sessions, so CSRF is not applicable.
   const app = express();
 
   // ─── Health endpoint ──────────────────────────────────────────────
@@ -92,7 +93,7 @@ function createApp({ rateLimiter, nodeId = 'unknown' } = {}) {
     } catch (err) {
       // Redis connection failure → fail closed with 503
       // (Phase 1 decision: CTO prefers over-reject over under-limit)
-      console.error(`[${nodeId}] Rate limiter error:`, err.message);
+      console.error('[%s] Rate limiter error:', nodeId, err.message);
       return res.status(503).json({
         error: 'service_unavailable',
         message: 'Rate limiting service is temporarily unavailable.',
